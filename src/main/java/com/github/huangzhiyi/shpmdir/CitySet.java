@@ -10,7 +10,7 @@ import java.util.BitSet;
  */
 public class CitySet {
 
-	private final static int DEFAULT_END=999;
+	private final static int DEFAULT_END=1000;
 	
 	private int start=0;
 	private int end=DEFAULT_END;
@@ -26,7 +26,7 @@ public class CitySet {
 		if(bin!=null){
 			char[] ca=bin.toCharArray();
 			int size=Math.min(cs.end, bin.length());
-			for(int i=cs.start;i<=size;i++){
+			for(int i=cs.start;i<size;i++){
 				if(ca[i]=='1'){
 					cs.bs.set(i);
 				}
