@@ -16,7 +16,7 @@ public class CitySetTestcase {
 	@Test
 	public void test_ofBinStr(){
 		assertEquals("11",CitySet.ofBinStr("11").toBinStr());
-		assertEquals("1101",CitySet.ofBinStr("1101").toBinStr());
+		assertEquals("0101",CitySet.ofBinStr("0101").toBinStr());
 		assertEquals("1000010101",CitySet.ofBinStr("1000010101").toBinStr());
 	}
 	

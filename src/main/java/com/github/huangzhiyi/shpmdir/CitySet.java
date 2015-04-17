@@ -28,7 +28,7 @@ public class CitySet {
 			int size=Math.min(cs.end, bin.length());
 			for(int i=0;i<size;i++){
 				if(ca[i]=='1'){
-					cs.bs.set(i);
+					cs.bs.set(i+1);
 				}
 			}
 		}
