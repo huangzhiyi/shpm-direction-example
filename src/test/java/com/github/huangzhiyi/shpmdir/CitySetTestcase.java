@@ -25,4 +25,11 @@ public class CitySetTestcase {
 		assertTrue(CitySet.ofCityCodes("1","3").contains("1","3"));
 		assertFalse(CitySet.ofCityCodes("1","3").contains("1","5"));
 	}
+	
+	@Test
+	public void test_isEmpty(){
+		assertTrue(CitySet.emptySet().isEmpty());
+		assertTrue(CitySet.ofCityCodes("1").isNotEmpty());
+		assertTrue(CitySet.ofCityCodes("0").isEmpty());
+	}
 }
