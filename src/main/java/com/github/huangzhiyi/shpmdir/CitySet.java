@@ -46,6 +46,24 @@ public class CitySet {
 	}
 	
 	/**
+	 * True if city set contains all the specified city codes.
+	 * @param cityCodes
+	 * @return
+	 */
+	public boolean contains(String... cityCodes){
+		if(cityCodes==null){
+			return false;
+		}
+		
+		for(String cityCode:cityCodes){
+			if(!bs.get(Integer.valueOf(cityCode))){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 * 
 	 * @return An empty set
 	 */

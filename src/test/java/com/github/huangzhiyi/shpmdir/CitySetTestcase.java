@@ -1,6 +1,6 @@
 package com.github.huangzhiyi.shpmdir;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -18,5 +18,11 @@ public class CitySetTestcase {
 		assertEquals("11",CitySet.ofBinStr("11").toBinStr());
 		assertEquals("1101",CitySet.ofBinStr("1101").toBinStr());
 		assertEquals("1000010101",CitySet.ofBinStr("1000010101").toBinStr());
+	}
+	
+	@Test
+	public void test_contains(){
+		assertTrue(CitySet.ofCityCodes("1","3").contains("1","3"));
+		assertFalse(CitySet.ofCityCodes("1","3").contains("1","5"));
 	}
 }
