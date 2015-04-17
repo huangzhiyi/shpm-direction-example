@@ -8,9 +8,9 @@ public class CitySetTestcase {
 
 	@Test
 	public void test_toBinStr(){
-		assertEquals("11",CitySet.ofCityCodes("1").toBinStr());
-		assertEquals("1101",CitySet.ofCityCodes("1","3").toBinStr());
-		assertEquals("1000010101",CitySet.ofCityCodes("5","7","9").toBinStr());
+		assertEquals("1",CitySet.ofCityCodes("1").toBinStr());
+		assertEquals("101",CitySet.ofCityCodes("1","3").toBinStr());
+		assertEquals("000010101",CitySet.ofCityCodes("5","7","9").toBinStr());
 	}
 	
 	@Test
@@ -30,6 +30,5 @@ public class CitySetTestcase {
 	public void test_isEmpty(){
 		assertTrue(CitySet.emptySet().isEmpty());
 		assertTrue(CitySet.ofCityCodes("1").isNotEmpty());
-		assertTrue(CitySet.ofCityCodes("0").isEmpty());
 	}
 }

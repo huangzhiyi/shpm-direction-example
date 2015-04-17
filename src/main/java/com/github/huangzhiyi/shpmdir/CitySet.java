@@ -1,5 +1,6 @@
 package com.github.huangzhiyi.shpmdir;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 /**
@@ -12,7 +13,6 @@ public class CitySet {
 
 	private final static int DEFAULT_END=1000;
 	
-	private final int start=0;
 	private final int end=DEFAULT_END;
 	private BitSet bs=new BitSet(DEFAULT_END);
 
@@ -26,7 +26,7 @@ public class CitySet {
 		if(bin!=null){
 			char[] ca=bin.toCharArray();
 			int size=Math.min(cs.end, bin.length());
-			for(int i=cs.start;i<size;i++){
+			for(int i=0;i<size;i++){
 				if(ca[i]=='1'){
 					cs.bs.set(i);
 				}
@@ -68,7 +68,7 @@ public class CitySet {
 	 * @return
 	 */
 	public boolean isEmpty(){
-		return "1".equals(this.toBinStr());
+		return "".equals(this.toBinStr());
 	}
 	
 	public boolean isNotEmpty(){
@@ -84,7 +84,7 @@ public class CitySet {
 	}
 	
 	private CitySet(){
-		bs.set(0);//The binary string should be started from 1
+		
 	}
 	
 	/**
@@ -127,6 +127,11 @@ public class CitySet {
 
         int cur = bs.nextSetBit(0);
         if (cur != -1) {
+        	if(cur>1){
+        		char[] zeroArr=new char[cur-1];
+        		Arrays.fill(zeroArr, '0');
+        		b.append(zeroArr);
+        	}
         	int last=cur+1;
             b.append('1');
             for (cur = bs.nextSetBit(cur+1); cur >= 0; cur = bs.nextSetBit(cur+1)) {
