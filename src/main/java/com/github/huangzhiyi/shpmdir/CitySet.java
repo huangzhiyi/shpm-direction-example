@@ -12,8 +12,8 @@ public class CitySet {
 
 	private final static int DEFAULT_END=1000;
 	
-	private int start=0;
-	private int end=DEFAULT_END;
+	private final int start=0;
+	private final int end=DEFAULT_END;
 	private BitSet bs=new BitSet(DEFAULT_END);
 
 	/**
@@ -64,6 +64,18 @@ public class CitySet {
 	}
 	
 	/**
+	 * Return true if no city code contained.
+	 * @return
+	 */
+	public boolean isEmpty(){
+		return "1".equals(this.toBinStr());
+	}
+	
+	public boolean isNotEmpty(){
+		return !isEmpty();
+	}
+	
+	/**
 	 * 
 	 * @return An empty set
 	 */
@@ -85,6 +97,25 @@ public class CitySet {
 			bs.set(Integer.valueOf(cityCode));
 		}
 		return this;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		boolean result=false;
+		if(obj instanceof CitySet){
+			result=bs.equals(((CitySet) obj).getBs());
+		}
+		return result;
+	}
+	
+	@Override
+	public int hashCode(){
+		return bs.hashCode()+23;
+	}
+	
+	@Override
+	public String toString(){
+		return bs.toString();
 	}
 	
 	/**
@@ -111,5 +142,9 @@ public class CitySet {
         }
 
         return b.toString();
+	}
+
+	public BitSet getBs() {
+		return bs;
 	}
 }
