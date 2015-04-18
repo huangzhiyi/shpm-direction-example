@@ -3,6 +3,9 @@ package com.github.huangzhiyi.shpmdir.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.github.huangzhiyi.shpmdir.CityDir;
 import com.github.huangzhiyi.shpmdir.CitySet;
@@ -10,14 +13,18 @@ import com.github.huangzhiyi.shpmdir.CitySet;
 
 public class CityDirDao {
 
+	/**
+	 * Save a city direction
+	 * @param cityDir
+	 */
 	public static void save(CityDir cityDir){
 		try{
 			Connection conn=MysqlMngr.instance().getConnection();
 			PreparedStatement stat=conn.prepareStatement("insert into citydir (name,orig,dest) value(?,?,?)");
 			
 			stat.setString(1, cityDir.getName());
-			stat.setString(2, cityDir.getFromCitySet().toBinStr());
-			stat.setString(3, cityDir.getToCitySet().toBinStr());
+			stat.setString(2, cityDir.getOrigCitySet().toBinStr());
+			stat.setString(3, cityDir.getDestCitySet().toBinStr());
 			
 			stat.execute();
 		}catch(Exception e){
@@ -25,7 +32,13 @@ public class CityDirDao {
 		}
 	}
 	
-	public static CityDir findByName(String name){
+	/**
+	 * Find first city direction by name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static CityDir findFirstByName(String name){
 		CityDir result=null;
 		try{
 			Connection conn=MysqlMngr.instance().getConnection();
@@ -36,12 +49,72 @@ public class CityDirDao {
 			ResultSet rs=stat.executeQuery();
 			if(rs.next()){
 				result=new CityDir().name(name)
-						.from(CitySet.ofBinStr(rs.getString("orig")))
-						.to(CitySet.ofBinStr(rs.getString("dest")));
+						.orig(CitySet.ofBinStr(rs.getString("orig")))
+						.dest(CitySet.ofBinStr(rs.getString("dest")));
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return result;
 	}
+	
+	/**
+	 * Find by original city set or destination city set.
+	 * @param orig
+	 * @param dest
+	 * @return
+	 */
+	public static List<CityDir> findByCitySet(CitySet orig,CitySet dest){
+		List<CityDir> result=new LinkedList<>();
+		List<Integer> param=new ArrayList<>();
+		String sql="select name,orig,dest from citydir";
+		if(orig.isNotEmpty() || dest.isNotEmpty()){
+			sql+=" where 1=1 ";
+			if(orig.isNotEmpty()){
+				for(int i:orig.toIntArray()){
+					sql+=" and substr(orig,?,1)='1' ";
+					param.add(i);
+				}
+			}
+			if(dest.isNotEmpty()){
+				for(int i:dest.toIntArray()){
+					sql+=" and substr(dest,?,1)='1' ";
+					param.add(i);
+				}
+			}
+		}
+		try{
+			Connection conn=MysqlMngr.instance().getConnection();
+			PreparedStatement stat=conn.prepareStatement(sql);
+			
+			for(int i=0;i<param.size();i++){
+				stat.setInt(i+1, param.get(i));
+			}
+			
+			ResultSet rs=stat.executeQuery();
+			while(rs.next()){
+				result.add(new CityDir().name(rs.getString("name"))
+						.orig(CitySet.ofBinStr(rs.getString("orig")))
+						.dest(CitySet.ofBinStr(rs.getString("dest"))));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * Delete all the data in table 'citydir'
+	 */
+	public static void clearAllData(){
+		try{
+			Connection conn=MysqlMngr.instance().getConnection();
+			PreparedStatement stat=conn.prepareStatement("truncate table citydir");
+			stat.execute();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

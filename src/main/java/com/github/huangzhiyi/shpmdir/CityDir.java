@@ -9,17 +9,17 @@ package com.github.huangzhiyi.shpmdir;
  */
 public class CityDir {
 
-	private CitySet fromCitySet=CitySet.emptySet();
-	private CitySet toCitySet=CitySet.emptySet();
+	private CitySet origCitySet=CitySet.emptySet();
+	private CitySet destCitySet=CitySet.emptySet();
 	private String name="";
 	
-	public CityDir from(CitySet from){
-		this.fromCitySet=from;
+	public CityDir orig(CitySet orig){
+		this.origCitySet=orig;
 		return this;
 	}
 	
-	public CityDir to(CitySet to){
-		this.toCitySet=to;
+	public CityDir dest(CitySet dest){
+		this.destCitySet=dest;
 		return this;
 	}
 	
@@ -32,11 +32,11 @@ public class CityDir {
 		return name;
 	}
 
-	public CitySet getFromCitySet() {
-		return fromCitySet;
+	public CitySet getOrigCitySet() {
+		return origCitySet;
 	}
 
-	public CitySet getToCitySet() {
-		return toCitySet;
+	public CitySet getDestCitySet() {
+		return destCitySet;
 	}
 }

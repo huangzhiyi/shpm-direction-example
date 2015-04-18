@@ -11,12 +11,30 @@ public class CityDirDaoTestcase {
 
 	@Test
 	public void test_save(){
+		CityDirDao.clearAllData();
 		CityDirDao.save(new CityDir().name("test")
-				.from(CitySet.ofCityCodes("755","020"))
-				.to(CitySet.ofCityCodes("759","010")));
+				.orig(CitySet.ofCityCodes("755","020"))
+				.dest(CitySet.ofCityCodes("759","010")));
 		
-		CityDir cd=CityDirDao.findByName("test");
-		assertTrue(cd.getFromCitySet().contains("755","020"));
-		assertTrue(cd.getToCitySet().contains("759","010"));
+		CityDir cd=CityDirDao.findFirstByName("test");
+		assertTrue(cd.getOrigCitySet().contains("755","020"));
+		assertTrue(cd.getDestCitySet().contains("759","010"));
+	}
+	
+	@Test
+	public void test_findByCitySet(){
+		CityDirDao.clearAllData();
+		CityDirDao.save(new CityDir().name("SH-TJ")
+				.orig(CitySet.ofCityCodes("021"))
+				.dest(CitySet.ofCityCodes("022")));
+		CityDirDao.save(new CityDir().name("SH-BJ|GZ")
+				.orig(CitySet.ofCityCodes("021"))
+				.dest(CitySet.ofCityCodes("010","020")));
+		
+		assertEquals("SH-TJ",CityDirDao.findByCitySet(CitySet.ofCityCodes("021"), CitySet.ofCityCodes("022"))
+				.get(0).getName());
+		assertEquals("SH-BJ|GZ",CityDirDao.findByCitySet(CitySet.emptySet(), CitySet.ofCityCodes("010","020"))
+				.get(0).getName());
+		assertEquals(2, CityDirDao.findByCitySet(CitySet.ofCityCodes("021"),CitySet.emptySet()).size());
 	}
 }
