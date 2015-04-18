@@ -1,7 +1,9 @@
 package com.github.huangzhiyi.shpmdir.db;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.huangzhiyi.shpmdir.CityDir;
@@ -9,6 +11,11 @@ import com.github.huangzhiyi.shpmdir.CitySet;
 
 public class CityDirDaoTestcase {
 
+	@Before
+	public void createTable(){
+		CityDirDao.createTable();
+	}
+	
 	@Test
 	public void test_save(){
 		CityDirDao.clearAllData();

@@ -13,14 +13,26 @@ import com.github.huangzhiyi.shpmdir.CitySet;
 
 public class CityDirDao {
 
+	private static final DBMngr DBMNGR=H2Mngr.instance();
+	
+	public static void createTable(){
+		try{
+			Connection conn=DBMNGR.getConnection();
+			PreparedStatement stat=conn.prepareStatement("CREATE TABLE IF NOT EXISTS citydir(name varchar(128),orig varchar(1000),dest varchar(1000))");
+			stat.execute();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Save a city direction
 	 * @param cityDir
 	 */
 	public static void save(CityDir cityDir){
 		try{
-			Connection conn=MysqlMngr.instance().getConnection();
-			PreparedStatement stat=conn.prepareStatement("insert into citydir (name,orig,dest) value(?,?,?)");
+			Connection conn=DBMNGR.getConnection();
+			PreparedStatement stat=conn.prepareStatement("insert into citydir (name,orig,dest) values(?,?,?)");
 			
 			stat.setString(1, cityDir.getName());
 			stat.setString(2, cityDir.getOrigCitySet().toBinStr());
@@ -41,7 +53,7 @@ public class CityDirDao {
 	public static CityDir findFirstByName(String name){
 		CityDir result=null;
 		try{
-			Connection conn=MysqlMngr.instance().getConnection();
+			Connection conn=DBMNGR.getConnection();
 			PreparedStatement stat=conn.prepareStatement("select name,orig,dest from citydir where name=?");
 			
 			stat.setString(1, name);
@@ -84,7 +96,7 @@ public class CityDirDao {
 			}
 		}
 		try{
-			Connection conn=MysqlMngr.instance().getConnection();
+			Connection conn=DBMNGR.getConnection();
 			PreparedStatement stat=conn.prepareStatement(sql);
 			
 			for(int i=0;i<param.size();i++){
@@ -108,7 +120,7 @@ public class CityDirDao {
 	 */
 	public static void clearAllData(){
 		try{
-			Connection conn=MysqlMngr.instance().getConnection();
+			Connection conn=DBMNGR.getConnection();
 			PreparedStatement stat=conn.prepareStatement("truncate table citydir");
 			stat.execute();
 		}catch(Exception e){
