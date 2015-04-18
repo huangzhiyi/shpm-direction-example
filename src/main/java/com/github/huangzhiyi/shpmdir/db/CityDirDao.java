@@ -13,7 +13,15 @@ import com.github.huangzhiyi.shpmdir.CitySet;
 
 public class CityDirDao {
 
+	/**
+	 * Use H2 database
+	 */
 	private static final DBMngr DBMNGR=H2Mngr.instance();
+	
+	/**
+	 * Use MySQL
+	 */
+//	private static final DBMngr DBMNGR=MysqlMngr.instance();
 	
 	public static void createTable(){
 		try{
