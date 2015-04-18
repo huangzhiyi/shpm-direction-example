@@ -2,6 +2,8 @@ package com.github.huangzhiyi.shpmdir;
 
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * China Mainland city code set.
@@ -147,6 +149,26 @@ public class CitySet {
         }
 
         return b.toString();
+	}
+	
+	/**
+	 * Return a city code integer array.
+	 * @return
+	 */
+	public int[] toIntArray(){
+		List<Integer> list=new LinkedList<>();
+		for (int i = bs.nextSetBit(0); i >= 0; i = bs.nextSetBit(i+1)) {
+			list.add(i);
+		}
+		int[] result=null;
+		if(!list.isEmpty()){
+			result=new int[list.size()];
+			int counter=0;
+			for(Integer i:list){
+				result[counter++]=i;
+			}
+		}
+		return result;
 	}
 
 	public BitSet getBs() {

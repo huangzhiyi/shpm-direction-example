@@ -31,4 +31,9 @@ public class CitySetTestcase {
 		assertTrue(CitySet.emptySet().isEmpty());
 		assertTrue(CitySet.ofCityCodes("1").isNotEmpty());
 	}
+	
+	@Test
+	public void test_toIntArray(){
+		assertArrayEquals(new int[]{20,755},CitySet.ofCityCodes("020","755").toIntArray());
+	}
 }
